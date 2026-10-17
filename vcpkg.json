@@ -1,0 +1,17 @@
+{
+  "name": "maboroutu-appkit",
+  "version": "0.0.0.1",
+  "description": "Application-side helpers for maboroutu: command-line subcommand dispatch and diagnostic output formatting.",
+  "homepage": "https://github.com/Eigen-0x41/maboroutu-appkit",
+  "license": "MIT",
+  "dependencies": [
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    }
+  ]
+}

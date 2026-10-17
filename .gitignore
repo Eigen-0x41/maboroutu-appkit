@@ -1,0 +1,26 @@
+# .gitignore
+
+# whitelist mode
+
+/*
+!/.gitignore
+!/.editorconfig
+
+#-allow list
+#--cxx
+!/src/
+!/src/*
+
+!/.clang-format
+!/.clang-tidy
+!/CMakeLists.txt
+!/LICENSE
+!/README.md
+
+#--vcpkg
+!/vcpkg-configuration.json
+!/vcpkg.json
+
+#--github
+!/.github/
+!/.github/*
