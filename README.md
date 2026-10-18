@@ -47,7 +47,7 @@ auto main(int argc, char *argv[]) -> int {
 
 ### `maboroutu.source_location_format`
 
-`std::source_location`を`std::format`で整形するための包み型`maboroutu::formatted_location`と、その`std::formatter`の特殊化を提供する。書式は`ファイル名: 行, 列: 関数名`である。
+`std::source_location`を`std::format`で整形するための包み型`maboroutu::formatted_location`と、その`std::formatter`の特殊化を提供する。書式は`ファイル名: 行, 列: 関数名`で、行と列は幅3で右寄せする（例: `main.cpp:  12,   5: int main()`）。
 
 ```cpp
 import maboroutu.source_location_format;
