@@ -79,7 +79,8 @@ export auto make_args_wrap(int argc, char *argv[]) -> args_base_type {
 using namespace maboroutu;
 template <>
 struct std::formatter<command_handler> : std::formatter<const char *> {
-   auto format(command_handler const &handler, std::format_context &ctx) const {
+   template <class FormatContext>
+   auto format(command_handler const &handler, FormatContext &ctx) const {
       auto out = ctx.out();
       out = std::format_to(out, "{: >22}\n", "commands");
 

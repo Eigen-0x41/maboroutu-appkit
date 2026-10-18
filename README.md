@@ -47,12 +47,21 @@ auto main(int argc, char *argv[]) -> int {
 
 ### `maboroutu.source_location_format`
 
-`std::source_location`を`ファイル名: 行, 列: 関数名`の形式で整形する。
+`std::source_location`を`std::format`で整形するための包み型`maboroutu::formatted_location`と、その`std::formatter`の特殊化を提供する。書式は`ファイル名: 行, 列: 関数名`である。
+
+```cpp
+import maboroutu.source_location_format;
+
+auto text = std::format("{}", maboroutu::formatted_location{});   // 呼び出し位置
+auto text2 = std::format("{}", maboroutu::formatted_location{loc}); // 既存の std::source_location
+```
+
+- 書式指定（`{:...}`）には対応しない。
+- 標準ライブラリの型に対する`std::formatter`の特殊化を避けるため、包み型を用いる（`maboroutu` 0.0.3.8 までの`std::formatter<std::source_location>`は廃止した）。
 
 ## 既知の問題
 
-- **`std::formatter`特殊化のモジュール間到達性（未解決）。** 両モジュールが定義する`std::formatter`の特殊化は、Clang 18 + libc++ では、`import`した別の翻訳単位から利用できず、`std::format`が「the supplied type is not formattable」でコンパイルエラーになる。これは、`maboroutu-tests`の作成時に確認された内容であり（最小再現例あり）、本リポジトリの作成時には再検証していない。GCC・libstdc++ の挙動は未検証である。
-- `std::formatter<std::source_location>`は、標準ライブラリの型に対する特殊化であり、将来の標準と衝突するおそれがある。別の型（ラッパー型）による置き換えを予定している。
+- **`std::formatter`の`format`は、`format_context`を具象型で受けない。** Clang 18 + libc++ 18 では、`format(..., std::format_context &)`と書いた特殊化は`std::formattable`を満たさず、`std::format`が「the supplied type is not formattable」系のコンパイルエラーになる（モジュールの有無とは無関係）。本リポジトリでは`template <class FormatContext> auto format(..., FormatContext &) const`と書いている。
 
 ## 要件
 
