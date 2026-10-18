@@ -25,7 +25,7 @@ template <> struct std::formatter<maboroutu::formatted_location> {
    auto format(maboroutu::formatted_location const &value,
                FormatContext &ctx) const {
       auto const &loc = value.location;
-      return std::format_to(ctx.out(), "{}: {}, {}: {}", loc.file_name(),
+      return std::format_to(ctx.out(), "{}: {:>3}, {:>3}: {}", loc.file_name(),
                             loc.line(), loc.column(), loc.function_name());
    }
 };
