@@ -17,6 +17,7 @@
 |---|---|
 | `maboroutu.console` | コマンドライン引数のサブコマンドを、名前と処理関数の対応表で振り分ける`command_handler`と、`make_args_wrap` |
 | `maboroutu.source_location_format` | `std::source_location`を`std::format`で整形する`std::formatter`の特殊化 |
+| `maboroutu.result_format` | print debug 用。`std::expected`（`maboroutu::result`を含む）の値またはエラーの説明文字列、バイト列の16進表記を、`std::format`で整形する |
 
 ### `maboroutu.console`
 
@@ -94,3 +95,19 @@ target_link_libraries(your_target PRIVATE maboroutu::appkit)
 ## ライセンス
 
 MIT（`LICENSE`を参照）。
+
+### `maboroutu.result_format`
+
+読み取った値やエラーを、print debug で出力するための整形である。標準ライブラリのみに依存し、`maboroutu` 本体の型は`import`しない（エラー型が`message()`を持つことのみを要求する）。
+
+```cpp
+import maboroutu.result_format;
+
+auto value = maboroutu::read_value<maboroutu::endian::little, std::uint32_t>(src, 0);
+std::println("{}", maboroutu::show(value));      // 値、または "error: <説明文字列>"
+std::println("{:#x}", maboroutu::show(value));   // 書式指定は値の型へ渡される
+std::println("{}", maboroutu::show(std::span<std::byte const>(bytes))); // "de ad be ef"
+```
+
+- `show()`は、元の値を参照で保持する。整形が終わるまで、元の値が有効であること。
+- 本体の`core`は、標準出力・標準エラー出力へ書き込まない。出力は、利用側が行う。
